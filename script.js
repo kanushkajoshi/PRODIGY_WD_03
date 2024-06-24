@@ -14,14 +14,18 @@ const WINNING_COMBINATIONS = [
 const cellElements = document.querySelectorAll('[data-cell]');
 const board = document.getElementById('board');
 const restartButton = document.getElementById('restartButton');
+const playerModeButton = document.getElementById('playerMode');
+const aiModeButton = document.getElementById('aiMode');
 let oTurn;
+let isAiMode = false;
 let winningLineElement;
 
-startGame();
-
+playerModeButton.addEventListener('click', () => startGame(false));
+aiModeButton.addEventListener('click', () => startGame(true));
 restartButton.addEventListener('click', startGame);
 
-function startGame() {
+function startGame(aiMode = false) {
+  isAiMode = aiMode;
   oTurn = false;
   cellElements.forEach(cell => {
     cell.classList.remove(X_CLASS);
@@ -49,6 +53,9 @@ function handleClick(e) {
   } else {
     swapTurns();
     setBoardHoverClass();
+    if (isAiMode && !oTurn) {
+      aiMove();
+    }
   }
 }
 
@@ -138,4 +145,22 @@ function drawWinningLine(currentClass) {
   }
 
   board.appendChild(winningLineElement);
+}
+
+function aiMove() {
+  const availableCells = [...cellElements].filter(cell => {
+    return !cell.classList.contains(X_CLASS) && !cell.classList.contains(O_CLASS);
+  });
+  const randomIndex = Math.floor(Math.random() * availableCells.length);
+  const cell = availableCells[randomIndex];
+  placeMark(cell, X_CLASS);
+  if (checkWin(X_CLASS)) {
+    endGame(false);
+    drawWinningLine(X_CLASS);
+  } else if (isDraw()) {
+    endGame(true);
+  } else {
+    swapTurns();
+    setBoardHoverClass();
+  }
 }

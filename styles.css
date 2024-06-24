@@ -17,10 +17,24 @@ body {
     position: relative;
 }
 
-h1 {
-    color: #333;
+.mode-selection {
     margin-bottom: 20px;
-    font-size: 2.5em;
+}
+
+button {
+    margin: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background: #ff9a9e;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    transition: background 0.3s;
+}
+
+button:hover {
+    background: #fad0c4;
 }
 
 .board {
@@ -28,103 +42,65 @@ h1 {
     grid-template-columns: repeat(3, 100px);
     grid-template-rows: repeat(3, 100px);
     gap: 10px;
-    margin-bottom: 20px;
-    position: relative;
+    justify-content: center;
+    align-items: center;
 }
 
 .cell {
+    width: 100px;
+    height: 100px;
+    background-color: #e6e6e6;
     display: flex;
-    align-items: center;
     justify-content: center;
-    background: #fff;
-    border: 2px solid #333;
-    font-size: 2em;
+    align-items: center;
+    font-size: 48px;
     cursor: pointer;
     position: relative;
-    transition: background 0.3s ease;
 }
 
-.cell:hover {
-    background: #f1f1f1;
-}
-
-.cell:after {
-    content: '';
-    display: block;
-    padding-bottom: 100%;
-}
-
-.cell.x::before, .cell.o::before {
-    position: absolute;
+.cell::before {
     content: attr(data-content);
-    color: #000; /* Ensure X and O are black */
-    font-size: 3em;
-    animation: fadeIn 0.5s ease;
-}
-
-.cell.x::before {
-    content: 'X';
-}
-
-.cell.o::before {
-    content: 'O';
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    color: black;
 }
 
 .winning-line {
     position: absolute;
     background-color: #333;
     z-index: 1;
-    transform: translate(-60%, -37%);
-}
-
-.line-horizontal, .line-vertical {
-    width: 310px;
-    height: 5px;
+    transform-origin: center;
 }
 
 .line-horizontal {
+    width: 100%;
+    height: 5px;
     top: 50%;
-    left: 50%;
+    left: 0;
+    transform: translateY(-50%);
 }
 
 .line-vertical {
     width: 5px;
-    height: 310px;
+    height: 100%;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
 }
 
 .line-diagonal {
-    width: 400px;
+    position: absolute;
     height: 5px;
+    background-color: #333;
+    transform-origin: 0 100%;
 }
 
 .line-diagonal-1 {
-    transform: rotate(45deg);
-    top: 50%;
-    left: 50%;
+    width: 100%;
+    top: 0;
+    left: 0;
 }
 
 .line-diagonal-2 {
-    transform: rotate(-45deg);
-    top: 50%;
-    left: 50%;
-}
-
-button {
-    padding: 10px 20px;
-    font-size: 1.2em;
-    background: linear-gradient(135deg, #6dd5fa 0%, #2980b9 100%);
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background 0.3s ease;
-}
-
-button:hover {
-    background: linear-gradient(135deg, #2980b9 0%, #6dd5fa 100%);
+    width: 100%;
+    bottom: 0;
+    left: 0;
 }
